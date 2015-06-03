@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p [%l] - %m%n" />
+		</layout>
+	</appender>
+	<appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
+		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			<param name="FileNamePattern" value="./log/elt.%d{yyyy-MM-dd}.gz" />
+			<param name="ActiveFileName" value="./log/elt.log" />
+		</rollingPolicy>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p [%l] - %m%n" />
+		</layout>
+	</appender>
+	<appender name="mail" class="org.apache.log4j.net.SMTPAppender">
+		<param name="SMTPHost" value="smtp3.hp.com" />
+		<param name="from" value="eltadmin@hp.com" />
+		<param name="to" value="lei.xu@hp.com,yang.wang18@hp.com" />
+		<param name="subject" value="ELT Error Message(eclipse)" />
+		<param name="bufferSize" value="0" />
+		<param name="threshold" value="ERROR" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p [%l] - %m%n" />
+		</layout>
+	</appender>
+	<appender name="async_mail" class="org.apache.log4j.AsyncAppender">
+		<appender-ref ref="mail" />
+	</appender>
+
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+<!-- 		<appender-ref ref="file" /> -->
+		<appender-ref ref="async_mail" />
+	</root>
+
+</log4j:configuration>    
